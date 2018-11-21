@@ -50,3 +50,13 @@ BEGIN
     and (V.Data_entrada_fila <= whenWait) into result;
     RETURN result;
 END //
+
+-- 4 4.	Obter uma listagem de utilizadores de uma categoria;
+
+DROP PROCEDURE IF EXISTS UtilizadorCat //
+
+CREATE PROCEDURE UtilizadorCat(id INT)
+BEGIN  
+	SELECT distinct U.Id "Id do Visitante", U.Nome as "Nome do Visitante" from Utilizador as U
+	WHERE (id = U.Categoria_Id);
+END //
