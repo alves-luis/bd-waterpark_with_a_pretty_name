@@ -19,8 +19,10 @@ create trigger VerificaDatasAtracao before insert on e_visitada_por
 	for each row
 begin
 	declare dataEntrada DATETIME;
+    declare dataSaida DATETIME;
     select Utilizador.Hora_entrada_parque from Utilizador where Utilizador.Id = NEW.Utilizador_id into dataEntrada;
-	if (not (date(NEW.Data_entrada_fila) = date(dataEntrada))) or (NEW.Data_entrada_fila < dataEntrada) then
+    select Utilizador.Hora_saida_parque from Utilizador where Utilizador.Id = NEW.Utilizador_id into dataSaida;
+	if (not (date(NEW.Data_entrada_fila) = date(dataEntrada))) or (NEW.Data_entrada_fila < dataEntrada) or ((dataSaida <> null) and (NEW.Data_entrada_fila > dataSaida)) then
          signal sqlstate '45000' set message_text = 'Impossível ir a uma atração se o Utilizador não está no Parque!';
 	end if;
 end //
