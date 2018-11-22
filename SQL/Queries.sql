@@ -1,5 +1,6 @@
 -- 1. Obter uma listagem dos utilizadores 
 -- que frequentaram uma atração num intervalo de tempo;
+USE ParqueAquatico;
 
 DELIMITER //
 
@@ -12,6 +13,7 @@ BEGIN
 	WHERE (V.Data_entrada_fila between fromWhen and toWhen) 
 		and id = V.Atracao_Id;
 END //
+
 
 -- 2. Obter o tempo médio de espera 
 -- dos utilizadores de uma atração num intervalo de tempo;
@@ -51,12 +53,35 @@ BEGIN
     RETURN result;
 END //
 
--- 4 4.	Obter uma listagem de utilizadores de uma categoria;
+
+-- 4 Obter uma listagem de utilizadores de uma categoria;
+DELIMITER //
 
 DROP PROCEDURE IF EXISTS UtilizadorCat //
 
 CREATE PROCEDURE UtilizadorCat(id INT)
 BEGIN  
-	SELECT distinct U.Id "Id do Visitante", U.Nome as "Nome do Visitante" from Utilizador as U
+	SELECT distinct U.Id "Id do Visitante", U.Nome "Nome do Visitante" from Utilizador as U
 	WHERE (id = U.Categoria_Id);
 END //
+
+
+
+-- 5.	Obter uma listagem das atrações mais visitadas por utilizadores de uma categoria;
+
+DELIMITER $$
+CREATE PROCEDURE AtracoesMaisVisitadasCat (id Int)
+BEGIN
+	SELECT Atracao.Designacao, COUNT(e_visitada_por.Utilizador_Id) as "Nº de visitas" FROM Utilizador 
+	INNER JOIN  e_visitada_por ON e_visitada_por.Utilizador_Id=Utilizador.Id
+    INNER JOIN Atracao ON Atracao.Id=e_visitada_por.Atracao_Id
+	WHERE (Utilizador.Categoria_Id=id)
+	GROUP BY (Atracao.Id)
+    ORDER BY COUNT(e_visitada_por.Utilizador_Id) DESC;
+END
+$$
+
+call AtracoesMaisVisitadasCat (1);
+
+drop Procedure AtracoesMaisVisitadasCat;
+

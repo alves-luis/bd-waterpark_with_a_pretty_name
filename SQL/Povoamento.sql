@@ -45,7 +45,9 @@ insert into Funcionário (Id, Nome, Salario) values (40, 'Christoffer Rentelll',
 
 -- Povoamento da Tabela atracao
 insert into Atracao (Id, Designacao, Zona, Capacidade, Duracao, Altura_Minima) values
-	(1,"Big Show","Cabeça",32,"00:3:10",170);
+	(1,"Big Show","Cabeça",32,"00:3:10",170),
+    (2, "35 and Still Falling", "Joelho",2,"00:00:20",155);
+    
 
 -- Povoamento da Tabela Categoria
 insert into Categoria (Id, Designacao, Preco, Idade_inferior, Idade_superior) values
@@ -258,7 +260,9 @@ INSERT INTO Utilizador (Id,Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_par
   
 -- Povoamento das visitas  
 insert into e_visitada_por (Data_entrada_fila, Data_entrada_atracao, Atracao_Id, Utilizador_Id) values
-						("2017-06-15 09:34:21", "2017-06-15 09:36:21",1,1),
-                        ("2017-06-15 09:38:21","2017-06-15 09:42:21",1,1);
-                        
-drop schema parqueaquatico;
+						("2017-06-15 11:34:21", "2017-06-15 11:36:21",1,1),
+                        ("2017-06-15 09:38:22","2017-06-15 09:42:25",1,197),
+                        ("2017-06-15 09:37:21", "2017-06-15 09:40:21",2,13),
+                        ("2017-06-15 10:38:21","2017-06-15 10:42:21",2,1),
+                        ("2017-06-16 09:34:21", "2017-06-16 09:36:21",2,66);
+-- drop schema parqueaquatico;
