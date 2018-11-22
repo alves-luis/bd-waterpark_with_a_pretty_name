@@ -85,3 +85,73 @@ call AtracoesMaisVisitadasCat (1);
 
 drop Procedure AtracoesMaisVisitadasCat;
 
+
+-- 6.	Obter a hora de entrada média dos utilizadores de uma categoria;
+
+DELIMITER //
+
+DROP FUNCTION IF EXISTS averageEntry//
+
+CREATE FUNCTION averageEntry(id INT)
+	RETURNS TIME
+    DETERMINISTIC
+BEGIN
+	DECLARE result TIME(0);
+	SELECT sec_to_time(avg(time_to_sec(U.Hora_Entrada_parque))) as "Média" from Utilizador as U
+	WHERE U.Categoria_Id=id
+	into result;
+	RETURN result;
+END //
+
+SELECT averageEntry(1);
+
+
+-- 7. Obter o número total de utilizadores que visitaram o parque num intervalo de tempo em dias (inclusive);
+
+DELIMITER //
+
+DROP FUNCTION IF EXISTS NumUtilizadoresAtTime //
+
+CREATE FUNCTION  NumUtilizadoresAtTime (inicio DATE, fim DATE)
+	RETURNS INT
+    DETERMINISTIC
+BEGIN
+	DECLARE result INT;
+	SELECT count(U.Id) from Utilizador as U
+	WHERE ((Date(U.Hora_entrada_parque) )BETWEEN inicio and fim) 
+	into result;
+	RETURN result;
+END //
+
+
+--  8.	Obter o número total de utilizadores que visitaram o parque por categoria num intervalo de tempo em dias (inclusive);
+
+DELIMITER //
+
+DROP FUNCTION IF EXISTS NumUtilizadoresAtTimeCat //
+
+CREATE FUNCTION  NumUtilizadoresAtTimeCat (id INT, inicio DATE, fim DATE)
+	RETURNS INT
+    DETERMINISTIC
+BEGIN
+	DECLARE result INT;
+	SELECT count(U.Id) from Utilizador as U
+	WHERE ((Date(U.Hora_entrada_parque) )BETWEEN inicio and fim) AND (U.Categoria_Id= id)
+	into result;
+	RETURN result;
+END //
+
+
+-- 9.	Obter o top n utilizadores que mais frequentaram as atrações num dia;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS BestUsers //
+
+CREATE PROCEDURE BestUsers (day DATE, limite INT)
+BEGIN
+	SELECT U.Nome as "Nome" , U.N_Atracoes_Visitadas as "Nº atrações visitadas" FROM Utilizador As U
+    WHERE (Date(U.Hora_entrada_parque)=day)
+    ORDER BY N_Atracoes_Visitadas ASC
+    LIMIT limite;
+END //
