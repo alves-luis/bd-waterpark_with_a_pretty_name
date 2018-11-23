@@ -155,3 +155,58 @@ BEGIN
     ORDER BY N_Atracoes_Visitadas ASC
     LIMIT limite;
 END //
+
+
+-- 10.	Obter as atrações mais visitadas num determinado intervalo de tempo;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS atractionsMostVisitedByTime //
+
+CREATE PROCEDURE atractionsMostVisitedByTime (fromWhen DATETIME, toWhen DATETIME)
+BEGIN 
+	SELECT A.Designacao as "Nome da Atração", COUNT(A.Id) as "Nº de visitantes" FROM Atracao As A
+    INNER JOIN e_visitada_por ON e_visitada_por.Atracao_Id= A.Id
+    WHERE (e_visitada_por.Data_entrada_atracao IS NOT NULL) AND (e_visitada_por.Data_entrada_atracao BETWEEN fromWhen AND toWhen)
+    GROUP BY (A.Id)
+    ORDER BY COUNT(A.Id) DESC;
+END //
+
+-- 11.	Obter uma listagem de todos os utilizadores que frequentaram o Parque, por ordem decrescente de tempo permanecido no Parque;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS allUsersByTimeOnPark //
+CREATE PROCEDURE allUsersByTimeOnPark ()
+BEGIN
+	SELECT U.Nome as "Nome do Utilizador", timediff(U.Hora_saida_parque,U.Hora_entrada_parque) as "Tempo que permaneceu no Parque" FROM Utilizador AS U
+    ORDER BY timediff(U.Hora_saida_parque,U.Hora_entrada_parque) DESC;
+END //
+
+
+-- 12.	Obter a designação da categoria do maior número de visitantes da atração monitorizada por um dado funcionário, num dado turno.
+
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS categoryMostVisitedOnShift //
+
+CREATE PROCEDURE categoryMostVisitedOnShift (funcionario INT, shift DATETIME)
+BEGIN
+	SELECT Categoria.Designacao as "Nome da Categoria ", COUNT(Categoria.Designacao) as "Nº visitantes da categoria"  FROM trabalha_em AS T
+    INNER JOIN Atracao ON Atracao.Id=T.Atracao_Id
+    INNER JOIN e_visitada_por ON  e_visitada_por.Atracao_Id=Atracao.Id
+    INNER JOIN Utilizador ON Utilizador.Id= e_visitada_por.Utilizador_Id
+    INNER JOIN Categoria On Categoria.Id = Utilizador.Categoria_Id
+    WHERE (T.Data_de_Fim IS NOT NULL)
+    AND (T.Funcionário_Id=funcionario)
+    AND (shift BETWEEN T.Data_de_Inicio AND T.Data_de_Fim)
+    AND (e_visitada_por.Data_entrada_atracao IS NOT NULL)
+    AND (e_visitada_por.Data_entrada_atracao BETWEEN T.Data_de_Inicio AND T.Data_de_Fim)
+    GROUP BY (Categoria.Id)
+    ORDER BY COUNT(Categoria.Designacao) DESC;
+    END //
+    
+    
+    
+
