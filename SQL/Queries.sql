@@ -152,7 +152,7 @@ CREATE PROCEDURE BestUsers (day DATE, limite INT)
 BEGIN
 	SELECT U.Nome as "Nome" , U.N_Atracoes_Visitadas as "Nº atrações visitadas" FROM Utilizador As U
     WHERE (Date(U.Hora_entrada_parque)=day)
-    ORDER BY N_Atracoes_Visitadas ASC
+    ORDER BY N_Atracoes_Visitadas DESC
     LIMIT limite;
 END //
 
@@ -180,6 +180,7 @@ DROP PROCEDURE IF EXISTS allUsersByTimeOnPark //
 CREATE PROCEDURE allUsersByTimeOnPark ()
 BEGIN
 	SELECT U.Nome as "Nome do Utilizador", timediff(U.Hora_saida_parque,U.Hora_entrada_parque) as "Tempo que permaneceu no Parque" FROM Utilizador AS U
+    WHERE U.Hora_saida_parque IS NOT NULL
     ORDER BY timediff(U.Hora_saida_parque,U.Hora_entrada_parque) DESC;
 END //
 
