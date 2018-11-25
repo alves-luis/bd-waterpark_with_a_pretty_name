@@ -1,12 +1,18 @@
 USE ParqueAquatico;
 
+DROP PROCEDURE InsertUser;
+DROP PROCEDURE InsertFuncionario;
+DROP PROCEDURE InsertAtracao;
 -- Procedure para addicionar um novo utilizador quando este entra no parque.
+
 
 DELIMITER //
  
 CREATE PROCEDURE `InsertUser` (in UserNome VARCHAR(64), UserNacionalidade VARCHAR(32), UserCategoria_id INT)
 	begin
-		INSERT INTO Utilizador (Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_parque,Categoria_Id,N_Atracoes_Visitadas) VALUES (@id,UserNome,UserNacionalidade,NOW(), NULL,UserCategoria_id,0);
+		INSERT INTO Utilizador (Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_parque,Categoria_Id,N_Atracoes_Visitadas) 
+												VALUES 
+												(UserNome,UserNacionalidade,NOW(), NULL,UserCategoria_id,0);
 	end
  //
 
@@ -16,23 +22,26 @@ DELIMITER //
  
 CREATE PROCEDURE `InsertFuncionario` (in FunNome VARCHAR(64),FunSalario DECIMAL(5,2))
 	begin
-		insert into Funcionário (Nome, Salario) values (FunNome, FunSalario);
+		insert into Funcionário (Nome, Salario) 
+											 VALUES
+                                             (FunNome, FunSalario);
 	end
  //
  
  -- Procedure para addicionar uma nova atração do parque.
 
- 
- DELIMITER //
+DELIMITER //
  
 CREATE PROCEDURE `InsertAtracao` (in ATDesignacao VARCHAR(32),ATZona VARCHAR(32), ATCapacidade INT , ATDuracao TIME, ATAltura INT)
 	begin
 		SET @id = (select(max(Id)+1) from Atracao);
-		insert into Atracao (Id, Designacao, Zona, Capacidade, Duracao, Altura_Minima) values (@id,ATDesignacao,ATZona,ATCapacidade,ATDuracao,ATAltura);
+		insert into Atracao (Id, Designacao, Zona, Capacidade, Duracao, Altura_Minima)							
+									  VALUES
+									  (@id, ATDesignacao,ATZona,ATCapacidade,ATDuracao,ATAltura);
 	end
  //
- 
-  -- Procedure para addicionar a data de saida do parque de um utilizador.
+
+-- Procedure para addicionar a data de saida do parque de um utilizador.
 
  
  DELIMITER //
@@ -52,7 +61,9 @@ DELIMITER //
  
 CREATE PROCEDURE `InsertTurno` (in DataBegin DATETIME, DataEnd DATETIME, FunID INT, AtracaoID INT )
 	begin
-		insert into trabalha_em (Data_de_Inicio, Data_de_Fim, Funcionário_Id, Atracao_Id) values (DataBegin, DataEnd, FunID, AtracaoID);
+		insert into trabalha_em (Data_de_Inicio, Data_de_Fim, Funcionário_Id, Atracao_Id) 
+											  VALUES
+											  (DataBegin, DataEnd, FunID, AtracaoID);
 	end
  // 
  
@@ -65,7 +76,9 @@ DELIMITER //
  
 CREATE PROCEDURE `VisitaAtracao` (in UtilizadorID INT, AtracaoID INT )
 	begin
-		insert into e_visitada_por (Data_entrada_fila, Data_entrada_atracao, Atracao_Id, Utilizador_Id) values (NOW(), NULL ,AtracaoID,UtilizadorID);
+		insert into e_visitada_por (Data_entrada_fila, Data_entrada_atracao, Atracao_Id, Utilizador_Id) 
+												 VALUES
+                                                 (NOW(), NULL ,AtracaoID,UtilizadorID);
 	end
  // 
  
