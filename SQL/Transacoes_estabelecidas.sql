@@ -32,12 +32,11 @@ CREATE PROCEDURE `InsertFuncionario` (in FunNome VARCHAR(64),FunSalario DECIMAL(
 
 DELIMITER //
  
-CREATE PROCEDURE `InsertAtracao` (in ATDesignacao VARCHAR(32),ATZona VARCHAR(32), ATCapacidade INT , ATDuracao TIME, ATAltura INT)
+CREATE PROCEDURE `InsertAtracao` (in id INT, ATDesignacao VARCHAR(32),ATZona VARCHAR(32), ATCapacidade INT , ATDuracao TIME, ATAltura INT)
 	begin
-		SET @id = (select(max(Id)+1) from Atracao);
 		insert into Atracao (Id, Designacao, Zona, Capacidade, Duracao, Altura_Minima)							
 									  VALUES
-									  (@id, ATDesignacao,ATZona,ATCapacidade,ATDuracao,ATAltura);
+									  (id, ATDesignacao,ATZona,ATCapacidade,ATDuracao,ATAltura);
 	end
  //
 
