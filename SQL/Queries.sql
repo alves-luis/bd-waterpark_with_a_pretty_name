@@ -70,6 +70,9 @@ END //
 -- 5.	Obter uma listagem das atrações mais visitadas por utilizadores de uma categoria;
 
 DELIMITER $$
+
+drop Procedure if exists AtracoesMaisVisitadasCat $$
+
 CREATE PROCEDURE AtracoesMaisVisitadasCat (id Int)
 BEGIN
 	SELECT Atracao.Designacao, COUNT(e_visitada_por.Utilizador_Id) as "Nº de visitas" FROM Utilizador 
@@ -80,10 +83,6 @@ BEGIN
     ORDER BY COUNT(e_visitada_por.Utilizador_Id) DESC;
 END
 $$
-
-call AtracoesMaisVisitadasCat (1);
-
-drop Procedure AtracoesMaisVisitadasCat;
 
 
 -- 6.	Obter a hora de entrada média dos utilizadores de uma categoria;
@@ -102,9 +101,6 @@ BEGIN
 	into result;
 	RETURN result;
 END //
-
-SELECT averageEntry(1);
-
 
 -- 7. Obter o número total de utilizadores que visitaram o parque num intervalo de tempo em dias (inclusive);
 
@@ -191,7 +187,6 @@ END //
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS categoryMostVisitedOnShift //
-
 CREATE PROCEDURE categoryMostVisitedOnShift (funcionario INT, shift DATETIME)
 BEGIN
 	SELECT Categoria.Designacao as "Nome da Categoria ", COUNT(Categoria.Designacao) as "Nº visitantes da categoria"  FROM trabalha_em AS T

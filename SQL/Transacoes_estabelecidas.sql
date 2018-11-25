@@ -6,8 +6,7 @@ DELIMITER //
  
 CREATE PROCEDURE `InsertUser` (in UserNome VARCHAR(64), UserNacionalidade VARCHAR(32), UserCategoria_id INT)
 	begin
-		SET @id = (select(max(Id)+1) from Utilizador);
-		INSERT INTO Utilizador (Id,Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_parque,Categoria_Id,N_Atracoes_Visitadas) VALUES (@id,UserNome,UserNacionalidade,NOW(), NULL,UserCategoria_id,0);
+		INSERT INTO Utilizador (Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_parque,Categoria_Id,N_Atracoes_Visitadas) VALUES (@id,UserNome,UserNacionalidade,NOW(), NULL,UserCategoria_id,0);
 	end
  //
 
@@ -17,8 +16,7 @@ DELIMITER //
  
 CREATE PROCEDURE `InsertFuncionario` (in FunNome VARCHAR(64),FunSalario DECIMAL(5,2))
 	begin
-		SET @id = (select(max(Id)+1) from Funcionário);
-		insert into Funcionário (Id, Nome, Salario) values (@id, FunNome, FunSalario);
+		insert into Funcionário (Nome, Salario) values (FunNome, FunSalario);
 	end
  //
  
