@@ -14,7 +14,6 @@ BEGIN
 		and id = V.Atracao_Id;
 END //
 
-
 -- 2. Obter o tempo médio de espera 
 -- dos utilizadores de uma atração num intervalo de tempo;
 DELIMITER //
