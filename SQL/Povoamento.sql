@@ -64,9 +64,9 @@ insert into Atracao (Id, Designacao, Zona, Capacidade, Duracao, Altura_Minima) v
 -- Povoamento da Tabela Categoria
 insert into Categoria (Id, Designacao, Preco, Idade_inferior, Idade_superior) values
 	(1,"Normal",27,11,64),
-    (2,"Júnior",20,5,10),
+    (2,"Junior",20,5,10),
     (3,"Infantil",0,0,4),
-    (4,"Sénior",20,64,120);
+    (4,"Senior",20,64,120);
 
 -- Povoamento da Tabela Utilizador
 INSERT INTO Utilizador (Id,Nome,Nacionalidade,Hora_entrada_parque,Hora_saida_parque,Categoria_Id,N_Atracoes_Visitadas) VALUES (1,"Brennan Hendricks","Chines","2017-06-15 09:00:00.0", "2017-06-15 11:00:00.0",1,"0");
