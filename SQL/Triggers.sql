@@ -1,4 +1,4 @@
-use parqueaquatico;
+use ParqueAquatico;
 
 delimiter //
 -- Atualizar a contagem de visitas 
