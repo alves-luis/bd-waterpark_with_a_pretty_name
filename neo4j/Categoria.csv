@@ -1,5 +1,5 @@
 Id,Designacao,Preco,Idade_inferior,Idade_superior
 1,Normal,27.00,11,64
-2,Júnior,20.00,5,10
+2,Junior,20.00,5,10
 3,Infantil,0.00,0,4
-4,Sénior,20.00,64,120
+4,Senior,20.00,64,120

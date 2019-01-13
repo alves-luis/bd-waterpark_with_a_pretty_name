@@ -1,0 +1,14 @@
+Id,Designacao,Zona,Capacidade,Duracao,Altura_Minima
+1,"Big Show",Cabeça,32,00:03:10,170
+2,"35 and Still Falling",Joelho,2,00:00:20,155
+3,"Bad River",Pé,20,00:03:10,150
+4,"Good River",Pé,40,00:05:20,150
+5,Blast,Cabeça,32,00:01:00,170
+6,Naboo,Joelho,2,00:00:56,0
+7,Tatooine,Ombro,32,00:00:50,165
+8,Coruscant,Ombro,2,00:00:40,165
+9,Geonosis,Pé,32,00:01:10,165
+10,Jakku,Joelho,2,00:01:20,120
+11,Mustafar,Cabeça,32,00:02:10,165
+12,Scarif,Ombro,2,00:03:20,165
+13,"Death Star",Cabeça,32,00:01:10,0
