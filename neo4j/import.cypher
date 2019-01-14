@@ -36,7 +36,7 @@ USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///Utilizador.csv" AS row
 MATCH (categoria:Categoria {id: toInteger(row.Categoria_Id)})
 MATCH (utilizador:Utilizador {id: toInteger(row.Id)})
-MERGE (utilizador)-[:PERTENCE_A]->(categoria);
+CREATE (utilizador)-[:PERTENCE_A]->(categoria);
 
 
 // Importar relacionamento entre Atracão e Utilizador (e_visitada_por)
@@ -45,7 +45,7 @@ USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///e_visitada_por.csv" AS row
 MATCH (atracao:Atracao {id: toInteger(row.Atracao_Id)})
 MATCH (utilizador:Utilizador {id: toInteger(row.Utilizador_Id)})
-MERGE (atracao)-[:E_VISITADA_POR {data_entrada_fila: row.Data_entrada_fila, data_entrada_atracao: row.Data_entrada_atracao}]->(utilizador);
+CREATE (atracao)-[:E_VISITADA_POR {data_entrada_fila: row.Data_entrada_fila, data_entrada_atracao: row.Data_entrada_atracao}]->(utilizador);
 
 // Importar relacionamento entre Funcionario e Atracao (trabalha_em)
 
@@ -53,7 +53,7 @@ USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///trabalha_em.csv" AS row
 MATCH (atracao:Atracao {id: toInteger(row.Atracao_Id)})
 MATCH (funcionario:Utilizador {id: toInteger(row.Funcionário_Id)})
-MERGE (funcionario)-[:TRABALHA_EM {data_de_inicio: row.Data_de_Inicio, data_de_fim: row.Data_de_Fim}]->(atracao);
+CREATE (funcionario)-[:TRABALHA_EM {data_de_inicio: row.Data_de_Inicio, data_de_fim: row.Data_de_Fim}]->(atracao);
 
 
 
