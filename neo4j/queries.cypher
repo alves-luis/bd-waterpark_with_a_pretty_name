@@ -37,3 +37,9 @@ where localdatetime(u.hora_entrada_parque).year = 2017 and localdatetime(u.hora_
 return u.nome as Nome, u.n_atracoes_visitadas as NAtracoesVisitadas
 order by u.n_atracoes_visitadas desc
 limit 5;
+
+// 10. Obter as atrações mais visitadas num determinado intervalo de tempo;
+match (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
+where localdatetime(r.data_entrada_atracao) >= localdatetime('2017-06-15T09:00:00') and localdatetime(r.data_entrada_atracao) <= localdatetime('2017-06-17T23:00:00')
+return a.designacao as NomeAtracao, count(a.id) as NumVisitas
+order by NumVisitas desc
