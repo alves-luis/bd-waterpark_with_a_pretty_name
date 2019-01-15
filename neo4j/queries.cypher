@@ -4,10 +4,29 @@ where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-
 return u.id as Id, u.nome as Nome
 order by u.id
 
+// 2. Obter o tempo médio de espera
+// dos utilizadores de uma atração num intervalo de tempo;
+match q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
+where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T09:05:20') and localdatetime(r.data_entrada_fila) <= localdatetime('2017-06-15T18:05:00')
+with duration.between(localdatetime(r.data_entrada_atracao),localdatetime(r.data_entrada_fila)) as diff
+return avg(diff) as TempoMedio;
+
+// 3. Obter o número de utilizadores em fila numa atração
+// num intervalo de tempo;
+match q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
+where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T10:05:20') and localdatetime(r.data_entrada_atracao) = localdatetime(null)
+return count(*);
+
 // 4. Obter uma listagem de utilizadores de uma categoria;
 match (u:Utilizador)-[r:PERTENCE_A]->(c:Categoria)
 where c.id = 2 // inserir aqui ID pretendido
 return u.id as IdVisitante, u.nome as NomeVisitante;
+
+// 5.	Obter uma listagem das atrações mais visitadas por utilizadores de uma categoria;
+match (a:Atracao)-[r:E_VISITADA_POR]-(u:Utilizador)-[p:PERTENCE_A]-(c:Categoria)
+where c.id = 2
+return DISTINCT a.designacao as Atracao, count(u)
+order by count(u) DESC
 
 // 6.	Obter a hora de entrada média dos utilizadores de uma categoria;
 
@@ -43,3 +62,18 @@ match (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
 where localdatetime(r.data_entrada_atracao) >= localdatetime('2017-06-15T09:00:00') and localdatetime(r.data_entrada_atracao) <= localdatetime('2017-06-17T23:00:00')
 return a.designacao as NomeAtracao, count(a.id) as NumVisitas
 order by NumVisitas desc
+
+// 11.	Obter uma listagem de todos os utilizadores que frequentaram o Parque, por ordem decrescente de tempo permanecido no Parque;
+MATCH (u:Utilizador)
+RETURN u
+ORDER BY duration.between(localdatetime(u.hora_saida_parque),localdatetime(u.hora_entrada_parque)) ASC
+
+// 12.	Obter a designação da categoria do maior número de visitantes da atração monitorizada por um dado funcionário, num dado turno.
+match (f:Funcionario)-[t:TRABALHA_EM]-(a:Atracao)-[r:E_VISITADA_POR]-(u:Utilizador)-[p:PERTENCE_A]-(c:Categoria)
+where f.id = 1
+and localdatetime(r.data_entrada_fila) >= localdatetime(t.data_de_inicio)
+and localdatetime(r.data_entrada_fila) <= localdatetime(t.data_de_fim)
+and localdatetime(t.data_de_inicio) <= localdatetime("2017-06-15T10:00:00")
+and localdatetime(t.data_de_fim) >= localdatetime("2017-06-15T10:00:00")
+return DISTINCT c.designacao, count(c.id)
+order by count(c.id) DESC
