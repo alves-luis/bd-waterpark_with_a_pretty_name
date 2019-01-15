@@ -16,7 +16,7 @@ return time.minutesOfHour + ':' + time.secondsOfMinute as TempoMedio;
 // num intervalo de tempo;
 match q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
 where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T10:05:20') and localdatetime(r.data_entrada_atracao) = null
-return count(*);
+return count(*) as PessoasEmFila;
 
 // 4. Obter uma listagem de utilizadores de uma categoria;
 match (u:Utilizador)-[r:PERTENCE_A]->(c:Categoria)
@@ -26,7 +26,7 @@ return u.id as IdVisitante, u.nome as NomeVisitante;
 // 5.	Obter uma listagem das atrações mais visitadas por utilizadores de uma categoria;
 match (a:Atracao)-[r:E_VISITADA_POR]-(u:Utilizador)-[p:PERTENCE_A]-(c:Categoria)
 where c.id = 2
-return DISTINCT a.designacao as Atracao, count(u)
+return a.designacao as Atracao, count(u) as Visitas
 order by count(u) DESC
 
 // 6.	Obter a hora de entrada média dos utilizadores de uma categoria;
@@ -76,5 +76,5 @@ and localdatetime(r.data_entrada_fila) >= localdatetime(t.data_de_inicio)
 and localdatetime(r.data_entrada_fila) <= localdatetime(t.data_de_fim)
 and localdatetime(t.data_de_inicio) <= localdatetime("2017-06-15T10:00:00")
 and localdatetime(t.data_de_fim) >= localdatetime("2017-06-15T10:00:00")
-return DISTINCT c.designacao, count(c.id)
+return c.designacao as Categoria, count(c.id) as NumVisitas
 order by count(c.id) DESC
