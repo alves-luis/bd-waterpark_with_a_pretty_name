@@ -4,7 +4,7 @@
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///Utilizador.csv" AS row
-CREATE (:Utilizador {id: toInteger(row.Id), nome: row.Nome, nacionalidade: row.Nacionalidade, hora_entrada_parque: row.Hora_entrada_parque, hora_saida_parque: row.Hora_saida_parque, n_atracoes_visitadas: row.N_Atracoes_Visitadas});
+CREATE (:Utilizador {id: toInteger(row.Id), nome: row.Nome, nacionalidade: row.Nacionalidade, hora_entrada_parque: row.Hora_entrada_parque, hora_saida_parque: row.Hora_saida_parque, n_atracoes_visitadas: toInteger(row.N_Atracoes_Visitadas)});
 
 
 // Importar Categoria
