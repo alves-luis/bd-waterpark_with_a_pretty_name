@@ -49,7 +49,7 @@ MERGE (atracao)-[:E_VISITADA_POR {data_entrada_fila: row.Data_entrada_fila, data
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "file:///trabalha_em.csv" AS row
 MATCH (atracao:Atracao {id: toInteger(row.Atracao_Id)})
-MATCH (funcionario:Utilizador {id: toInteger(row.Funcionário_Id)})
+MATCH (funcionario:Funcionario {id: toInteger(row.Funcionário_Id)})
 MERGE (funcionario)-[:TRABALHA_EM {data_de_inicio: row.Data_de_Inicio, data_de_fim: row.Data_de_Fim}]->(atracao);
 
 
