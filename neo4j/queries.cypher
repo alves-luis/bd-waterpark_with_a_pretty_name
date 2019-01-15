@@ -8,13 +8,14 @@ order by u.id
 // dos utilizadores de uma atração num intervalo de tempo;
 match q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
 where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T09:05:20') and localdatetime(r.data_entrada_fila) <= localdatetime('2017-06-15T18:05:00')
-with duration.between(localdatetime(r.data_entrada_atracao),localdatetime(r.data_entrada_fila)) as diff
-return avg(diff) as TempoMedio;
+with duration.between(localdatetime(r.data_entrada_fila),localdatetime(r.data_entrada_atracao)) as diff
+with avg(diff) as time
+return time.minutesOfHour + ':' + time.secondsOfMinute as TempoMedio;
 
 // 3. Obter o número de utilizadores em fila numa atração
 // num intervalo de tempo;
 match q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
-where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T10:05:20') and localdatetime(r.data_entrada_atracao) = localdatetime(null)
+where a.id = 1 and localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T10:05:20') and localdatetime(r.data_entrada_atracao) = null
 return count(*);
 
 // 4. Obter uma listagem de utilizadores de uma categoria;
