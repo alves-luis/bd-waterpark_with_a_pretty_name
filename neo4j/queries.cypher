@@ -15,7 +15,7 @@ RETURN time.minutesOfHour + ':' + time.secondsOfMinute AS TempoMedio;
 // 3. Obter o número de utilizadores em fila numa atração
 // num intervalo de tempo;
 MATCH q1 = (a:Atracao)-[r:E_VISITADA_POR]->(u:Utilizador)
-WHERE a.id = 1 AND localdatetime(r.data_entrada_fila) >= localdatetime('2017-06-15T10:05:20') AND localdatetime(r.data_entrada_atracao) = null
+WHERE a.id = 6 AND localdatetime(r.data_entrada_fila) <= localdatetime('2017-06-15T10:10:23') AND localdatetime(r.data_entrada_atracao) >= localdatetime('2017-06-15T10:10:23')
 RETURN COUNT(*) AS PessoasEmFila;
 
 // 4. Obter uma listagem de utilizadores de uma categoria;
