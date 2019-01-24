@@ -6,6 +6,8 @@ SELECT * FROM Categoria;
 
 SELECT * FROM Atracao;
 
+SELECT * FROM Funcionário;
+
 SELECT DATE_FORMAT( Data_entrada_fila, '%Y-%m-%dT%T') AS Data_entrada_fila, DATE_FORMAT(Data_entrada_atracao, '%Y-%m-%dT%T') AS Data_entrada_atracao, Atracao_Id, Utilizador_Id
 FROM e_visitada_por;
 
