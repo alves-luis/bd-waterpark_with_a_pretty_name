@@ -1,3 +1,16 @@
+create role marketing, funcionario, sensor;
+	grant select on ParqueAquatico.Utilizador to marketing;
+    grant select on ParqueAquatico.Atracao to marketing;
+    grant select on ParqueAquatico.e_visitada_por to marketing;
+    
+    grant insert on ParqueAquatico.Utilizador to funcionario;
+    grant select on ParqueAquatico.Categoria to funcionario;
+    
+    grant insert on ParqueAquatico.trabalha_em to sensor;
+    grant insert on ParqueAquatico.e_visitada_por to sensor;
+    grant update on ParqueAquatico.e_visitada_por to sensor;
+    grant update on ParqueAquatico.Utilizador to sensor;
+    
 create user if not exists marketingOne 
 	identified with sha256_password by '3Microsoft1Is2The4Best5'
 	with max_queries_per_hour 60;
@@ -19,20 +32,3 @@ create user if not exists funcionarioThree
 	identified with sha256_password by 'NopeStillEmpty32';
     
 grant funcionario to funcionarioOne, funcionarioTwo, funcionarioThree;
-
-    
-
-    
-create role marketing, funcionario, sensor;
-	grant select on ParqueAquatico.Utilizador to marketing;
-    grant select on ParqueAquatico.Atracao to marketing;
-    grant select on ParqueAquatico.e_visitada_por to marketing;
-    
-    grant insert on ParqueAquatico.Utilizador to funcionario;
-    grant select on ParqueAquatico.Categoria to funcionario;
-    
-    grant insert on ParqueAquatico.trabalha_em to sensor;
-    grant insert on ParqueAquatico.e_visitada_por to sensor;
-    grant update on ParqueAquatico.e_visitada_por to sensor;
-    grant update on ParqueAquatico.Utilizador to sensor;
-    
